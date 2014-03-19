@@ -1,5 +1,7 @@
 #!/bin/bash
-set -eu
+set -eux
+
+template_dir="/usr/share/tripleo/templates"
 
 BASE=$(dirname $0)/../
 BRIDGE_SUFFIX=${1:-''}
@@ -12,7 +14,7 @@ BRIDGE_NAME=brbm$BRIDGE_SUFFIX
 (virsh net-list --persistent | grep "${BRIDGE_NAME} ") && virsh net-destroy ${BRIDGE_NAME}
 (virsh net-list --inactive --persistent | grep "${BRIDGE_NAME} ") && virsh net-undefine ${BRIDGE_NAME}
 
-virsh net-define <(sed s/brbm/$BRIDGE_NAME/ $BASE/templates/brbm.xml)
+virsh net-define <(sed s/brbm/$BRIDGE_NAME/ $template_dir/brbm.xml)
 virsh net-autostart ${BRIDGE_NAME}
 virsh net-start ${BRIDGE_NAME}
 
