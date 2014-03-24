@@ -1,0 +1,60 @@
+From df177accea9787c6b4b422c07fdc6a171bca0ae6 Mon Sep 17 00:00:00 2001
+From: James Slagle <jslagle@redhat.com>
+Date: Wed, 19 Mar 2014 07:28:04 -0400
+Subject: [PATCH] Default devtest_variables.sh
+
+---
+ scripts/devtest_variables.sh | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
+
+diff --git a/scripts/devtest_variables.sh b/scripts/devtest_variables.sh
+index 6367be6..e6c031a 100755
+--- a/scripts/devtest_variables.sh
++++ b/scripts/devtest_variables.sh
+@@ -23,7 +23,7 @@ export LIBVIRT_DEFAULT_URI=${LIBVIRT_DEFAULT_URI:-"qemu:///system"}
+ ##    performance than e1000, but may prove to be less stable.
+ ##    ::
+ 
+-export LIBVIRT_NIC_DRIVER=${LIBVIRT_NIC_DRIVER:-"e1000"}
++export LIBVIRT_NIC_DRIVER=${LIBVIRT_NIC_DRIVER:-"virtio"}
+ 
+ ## #. Choose a base location to put all of the source code.
+ ##    ::
+@@ -32,14 +32,14 @@ export LIBVIRT_NIC_DRIVER=${LIBVIRT_NIC_DRIVER:-"e1000"}
+ ##         # to redo them, or use $TRIPLEO_ROOT/tripleo-incubator/scripts/write-tripleorc
+ ##         # and then source the generated tripleorc file.
+ ##         export TRIPLEO_ROOT=~/tripleo
+-export TRIPLEO_ROOT=${TRIPLEO_ROOT:-~/.cache/tripleo} #nodocs
++# export TRIPLEO_ROOT=${TRIPLEO_ROOT:-~/.cache/tripleo} #nodocs
+ 
+ ## 
+ ## #. Nova tools will get installed in $TRIPLEO_ROOT/tripleo-incubator/scripts
+ ##    - you need to add that to the PATH.
+ ##    ::
+ 
+-export PATH=$TRIPLEO_ROOT/tripleo-incubator/scripts:$PATH
++# export PATH=$TRIPLEO_ROOT/tripleo-incubator/scripts:$PATH
+ 
+ ## #. Set the default bare metal power manager. By default devtest uses
+ ##    nova.virt.baremetal.virtual_power_driver.VirtualPowerManager to
+@@ -96,7 +96,7 @@ export OVERCLOUD_CONTROL_DIB_EXTRA_ARGS=${OVERCLOUD_CONTROL_DIB_EXTRA_ARGS:-'rab
+ ## 
+ ##         export NODE_CPU=1 NODE_MEM=2048 NODE_DISK=20 NODE_ARCH=i386
+ ## 
+-export NODE_CPU=${NODE_CPU:-1} NODE_MEM=${NODE_MEM:-2048} NODE_DISK=${NODE_DISK:-20} NODE_ARCH=${NODE_ARCH:-i386} #nodocs
++export NODE_CPU=${NODE_CPU:-1} NODE_MEM=${NODE_MEM:-2048} NODE_DISK=${NODE_DISK:-20} NODE_ARCH=${NODE_ARCH:-amd64} #nodocs
+ 
+ ##    For 64bit it is better to create VMs with more memory and storage because of
+ ##    increased memory footprint::
+@@ -129,7 +129,7 @@ export OVERCLOUD_COMPUTESCALE=${OVERCLOUD_COMPUTESCALE:-2}
+ ## #. You need to make the tripleo image elements accessible to diskimage-builder:
+ ##    ::
+ 
+-export ELEMENTS_PATH=$TRIPLEO_ROOT/tripleo-image-elements/elements
++export ELEMENTS_PATH=/usr/share/tripleo-image-elements
+ 
+ ## #. Set the datafile to use to describe the 'hardware' in the devtest
+ ##    environment. If this file already exists, you should skip running
+-- 
+1.8.5.3
+
