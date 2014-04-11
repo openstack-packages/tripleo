@@ -5,7 +5,7 @@
 
 Name:			openstack-tripleo
 Version:		0.0.2
-Release:		4.%{alphatag}%{?dist}
+Release:		5.%{alphatag}%{?dist}
 Summary:		OpenStack TripleO
 
 Group:			Applications/System
@@ -21,6 +21,9 @@ Patch0001:		0001-Add-shebang.patch
 Patch0002:		0002-Switch-back-to-oslo.sphinx.patch
 Patch0003:		0003-Use-packaged-template-directory.patch
 Patch0004:		0004-Default-devtest_variables.sh.patch
+
+# https://review.openstack.org/#/c/85024/
+Patch0005:		0005-Move-setup-clienttools-to-devtest_setup.sh.patch
 
 BuildArch:		noarch
 
@@ -56,6 +59,7 @@ This package contains documentation files for TripleO.
 %patch0002 -p1
 %patch0003 -p1
 %patch0004 -p1
+%patch0005 -p1
 
 %install
 # scripts
@@ -102,6 +106,9 @@ cp -r doc/build/html/* %{buildroot}%{_datadir}/doc/tripleo/html
 %{_datadir}/doc/tripleo
 
 %changelog
+* Fri Apr 04 2014 James Slagle <jslagle@redhat.com> 0.0.2-5.20140220git
+- Add patch 0005-Move-setup-clienttools-to-devtest_setup.sh.patch
+
 * Wed Mar 19 2014 James Slagle <jslagle@redhat.com> 0.0.2-4.20140220git
 - Add patch 0003-Use-packaged-template-directory.patch
 - Add patch 0004-Default-devtest_variables.sh.patch
