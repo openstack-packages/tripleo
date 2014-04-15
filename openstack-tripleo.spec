@@ -1,11 +1,11 @@
-%global commit d305ad25f2538d829465092146de5cdfb4a803d8
+%global commit stable/icehouse
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
-%global alphatag 20140220git
+%global alphatag icehouse
 %global repo_name tripleo-incubator
 
 Name:			openstack-tripleo
 Version:		0.0.2
-Release:		5.%{alphatag}%{?dist}
+Release:		6.%{alphatag}%{?dist}
 Summary:		OpenStack TripleO
 
 Group:			Applications/System
@@ -14,13 +14,10 @@ URL:			https://wiki.openstack.org/wiki/TripleO
 Source0:		https://github.com/openstack/%{repo_name}/archive/%{commit}.tar.gz
 Source1:		tripleo
 
-# Upstream patch: https://review.openstack.org/#/c/74452/
-Patch0001:		0001-Add-shebang.patch
 # Upstream switched to oslosphinx in https://review.openstack.org/#/c/73353/,
 # but that does not yet exist in Fedora.
 Patch0002:		0002-Switch-back-to-oslo.sphinx.patch
 Patch0003:		0003-Use-packaged-template-directory.patch
-Patch0004:		0004-Default-devtest_variables.sh.patch
 
 # https://review.openstack.org/#/c/85024/
 Patch0005:		0005-Move-setup-clienttools-to-devtest_setup.sh.patch
@@ -29,6 +26,8 @@ BuildArch:		noarch
 
 BuildRequires:		python-sphinx
 BuildRequires:		python-oslo-sphinx
+
+Requires:		jq
 
 %description
 TripleO is a program aimed at installing, upgrading and operating OpenStack
@@ -53,12 +52,10 @@ nova, neutron and heat to automate fleet management at datacenter scale.
 This package contains documentation files for TripleO.
 
 %prep
-%setup -q -n %{repo_name}-%{commit}
+%setup -q -n %{repo_name}-stable-%{alphatag}
 
-%patch0001 -p1
 %patch0002 -p1
 %patch0003 -p1
-%patch0004 -p1
 %patch0005 -p1
 
 %install
@@ -83,10 +80,6 @@ install -p -m 644 -t %{buildroot}/%{_sysconfdir}/tripleo overcloudrc-user
 install -d -m 755 %{buildroot}/%{_datadir}/tripleo/templates
 install -p -m 644 -t %{buildroot}/%{_datadir}/tripleo/templates templates/*
 
-# libvirt templates
-install -d -m 755 %{buildroot}/%{_datadir}/tripleo/libvirt-templates
-install -p -m 644 -t %{buildroot}/%{_datadir}/tripleo/libvirt-templates libvirt-templates/*
-
 # documentation
 sphinx-build -b html doc/source doc/build/html
 install -d -m 755 %{buildroot}%{_datadir}/doc/tripleo/html
@@ -106,6 +99,10 @@ cp -r doc/build/html/* %{buildroot}%{_datadir}/doc/tripleo/html
 %{_datadir}/doc/tripleo
 
 %changelog
+* Tue Apr 15 2014 James Slagle <jslagle@redhat.com> 0.0.2-6.icehouse
+- Build from upstream stable/icehouse branch
+- Add Requires on jq
+
 * Fri Apr 04 2014 James Slagle <jslagle@redhat.com> 0.0.2-5.20140220git
 - Add patch 0005-Move-setup-clienttools-to-devtest_setup.sh.patch
 
