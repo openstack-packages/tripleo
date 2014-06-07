@@ -5,7 +5,7 @@
 
 Name:			openstack-tripleo
 Version:		0.0.2
-Release:		6.%{alphatag}%{?dist}
+Release:		7.%{alphatag}%{?dist}
 Summary:		OpenStack TripleO
 
 Group:			Applications/System
@@ -99,6 +99,9 @@ cp -r doc/build/html/* %{buildroot}%{_datadir}/doc/tripleo/html
 %{_datadir}/doc/tripleo
 
 %changelog
+* Sat Jun 07 2014 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.0.2-7.icehouse
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_21_Mass_Rebuild
+
 * Tue Apr 15 2014 James Slagle <jslagle@redhat.com> 0.0.2-6.icehouse
 - Build from upstream stable/icehouse branch
 - Add Requires on jq
