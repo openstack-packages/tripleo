@@ -1,26 +1,29 @@
-From 93f737573171eaffa88f4f1f48fd322fa54e0901 Mon Sep 17 00:00:00 2001
+From ad3f29082e3e26124d21c4a546a9afc0288db071 Mon Sep 17 00:00:00 2001
 From: James Slagle <jslagle@redhat.com>
 Date: Wed, 19 Mar 2014 07:09:41 -0400
 Subject: [PATCH] Use packaged template directory
 
 ---
- scripts/configure-vm  | 2 +-
+ scripts/configure-vm  | 5 +----
  scripts/setup-network | 6 ++++--
- 2 files changed, 5 insertions(+), 3 deletions(-)
+ 2 files changed, 5 insertions(+), 6 deletions(-)
 
 diff --git a/scripts/configure-vm b/scripts/configure-vm
-index 458507f..afbffd8 100755
+index 633b053..98e06b4 100755
 --- a/scripts/configure-vm
 +++ b/scripts/configure-vm
-@@ -5,7 +5,7 @@ import os.path
+@@ -6,10 +6,7 @@ import random
  
  import libvirt
  
--templatedir = os.path.dirname(os.path.dirname(__file__)) + '/templates'
+-templatedir = os.path.join(
+-                os.path.dirname(
+-                  os.path.dirname(
+-                    os.path.abspath(__file__))), 'templates')
 +templatedir="/usr/share/tripleo/templates"
  
- def main():
-     parser = argparse.ArgumentParser(
+ def generate_bm_mac_address():
+     """Generate an Ethernet MAC address suitable for baremetal testing."""
 diff --git a/scripts/setup-network b/scripts/setup-network
 index 1d7c228..0e12482 100755
 --- a/scripts/setup-network
@@ -44,5 +47,5 @@ index 1d7c228..0e12482 100755
  virsh net-start ${BRIDGE_NAME}
  
 -- 
-1.8.5.3
+1.9.3
 

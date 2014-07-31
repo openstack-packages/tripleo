@@ -14,13 +14,7 @@ URL:			https://wiki.openstack.org/wiki/TripleO
 Source0:		https://github.com/openstack/%{repo_name}/archive/%{commit}.tar.gz
 Source1:		tripleo
 
-# Upstream switched to oslosphinx in https://review.openstack.org/#/c/73353/,
-# but that does not yet exist in Fedora.
-Patch0002:		0002-Switch-back-to-oslo.sphinx.patch
-Patch0003:		0003-Use-packaged-template-directory.patch
-
-# https://review.openstack.org/#/c/85024/
-Patch0005:		0005-Move-setup-clienttools-to-devtest_setup.sh.patch
+Patch0001:		0001-Use-packaged-template-directory.patch
 
 BuildArch:		noarch
 
@@ -52,11 +46,9 @@ nova, neutron and heat to automate fleet management at datacenter scale.
 This package contains documentation files for TripleO.
 
 %prep
-%setup -q -n %{repo_name}-stable-%{alphatag}
+%setup -q -n %{repo_name}-%{upstream_version}
 
-%patch0002 -p1
-%patch0003 -p1
-%patch0005 -p1
+%patch0001 -p1
 
 %install
 # scripts
@@ -86,7 +78,7 @@ install -d -m 755 %{buildroot}%{_datadir}/doc/tripleo/html
 cp -r doc/build/html/* %{buildroot}%{_datadir}/doc/tripleo/html
 
 %files
-%doc LICENSE README.md
+%doc LICENSE README.rst
 %{_bindir}/*
 %{_libexecdir}/%{name}
 # These config files are *not* noreplace. They aren't meant to be edited by
@@ -95,7 +87,7 @@ cp -r doc/build/html/* %{buildroot}%{_datadir}/doc/tripleo/html
 %{_datadir}/tripleo
 
 %files doc
-%doc LICENSE README.md
+%doc LICENSE README.rst
 %{_datadir}/doc/tripleo
 
 %changelog
