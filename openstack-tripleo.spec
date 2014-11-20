@@ -1,11 +1,11 @@
-%global commit stable/icehouse
+%global commit c3fb309727671130a32b4c19de48ec22c8530aa1
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
-%global alphatag icehouse
+%global alphatag %commit
 %global repo_name tripleo-incubator
 
 Name:			openstack-tripleo
-Version:		0.0.2
-Release:		7.%{alphatag}%{?dist}
+Version: XXX
+Release: XXX{?dist}
 Summary:		OpenStack TripleO
 
 Group:			Applications/System
@@ -14,7 +14,7 @@ URL:			https://wiki.openstack.org/wiki/TripleO
 Source0:		https://github.com/openstack/%{repo_name}/archive/%{commit}.tar.gz
 Source1:		tripleo
 
-Patch0001:		0001-Use-packaged-template-directory.patch
+Patch0001:             0001-Use-packaged-template-directory-path.patch
 
 BuildArch:		noarch
 
@@ -22,6 +22,10 @@ BuildRequires:		python-sphinx
 BuildRequires:		python-oslo-sphinx
 
 Requires:		jq
+
+#
+# patches_base=c3fb309727671130a32b4c19de48ec22c8530aa1
+#
 
 %description
 TripleO is a program aimed at installing, upgrading and operating OpenStack
@@ -78,7 +82,6 @@ install -d -m 755 %{buildroot}%{_datadir}/doc/tripleo/html
 cp -r doc/build/html/* %{buildroot}%{_datadir}/doc/tripleo/html
 
 %files
-%doc LICENSE README.rst
 %{_bindir}/*
 %{_libexecdir}/%{name}
 # These config files are *not* noreplace. They aren't meant to be edited by
@@ -91,6 +94,18 @@ cp -r doc/build/html/* %{buildroot}%{_datadir}/doc/tripleo/html
 %{_datadir}/doc/tripleo
 
 %changelog
+* Wed Oct 08 2014 James Slagle <jslagle@redhat.com> 0.0.5-2c3fb309727671130a32b4c19de48ec22c8530aa1
+- Remove check for $TRIPLEO_ROOT.
+
+* Thu Oct 2 2014 James Slagle <jslagle@redhat.com> 0.0.5-1
+- Update to c3fb309727671130a32b4c19de48ec22c8530aa1
+
+* Mon Sep 29 2014 James Slagle <jslagle@redhat.com> 0.0.4-1
+- Update to b51d5a1840b4e985b7daa334814a10590af00d53
+
+* Mon Sep 15 2014 James Slagle <jslagle@redhat.com> 0.0.3-1
+- Update to later version.
+
 * Sat Jun 07 2014 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.0.2-7.icehouse
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_21_Mass_Rebuild
 
