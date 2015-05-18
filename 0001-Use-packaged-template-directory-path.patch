@@ -25,7 +25,7 @@ index 633b053..98e06b4 100755
  def generate_bm_mac_address():
      """Generate an Ethernet MAC address suitable for baremetal testing."""
 diff --git a/scripts/setup-network b/scripts/setup-network
-index 1d7c228..0e12482 100755
+index 54b886a..75a3592 100755
 --- a/scripts/setup-network
 +++ b/scripts/setup-network
 @@ -1,5 +1,7 @@
@@ -36,15 +36,15 @@ index 1d7c228..0e12482 100755
 +template_dir="/usr/share/tripleo/templates"
  
  BASE=$(dirname $0)/../
- BRIDGE_SUFFIX=${1:-''}
-@@ -12,7 +14,7 @@ BRIDGE_NAME=brbm$BRIDGE_SUFFIX
- (virsh net-list --persistent | grep "${BRIDGE_NAME} ") && virsh net-destroy ${BRIDGE_NAME}
- (virsh net-list --inactive --persistent | grep "${BRIDGE_NAME} ") && virsh net-undefine ${BRIDGE_NAME}
+ BRIDGE_SUFFIX=${1:-''} # support positional arg for legacy support
+@@ -46,7 +48,7 @@ function create_bridge {
+     (virsh net-list --persistent | grep "${BRIDGE_NAME} ") && virsh net-destroy ${BRIDGE_NAME}
+     (virsh net-list --inactive --persistent | grep "${BRIDGE_NAME} ") && virsh net-undefine ${BRIDGE_NAME}
  
--virsh net-define <(sed s/brbm/$BRIDGE_NAME/ $BASE/templates/brbm.xml)
-+virsh net-define <(sed s/brbm/$BRIDGE_NAME/ $template_dir/brbm.xml)
- virsh net-autostart ${BRIDGE_NAME}
- virsh net-start ${BRIDGE_NAME}
+-    virsh net-define <(sed s/brbm/$BRIDGE_NAME/ $BASE/templates/brbm.xml)
++    virsh net-define <(sed s/brbm/$BRIDGE_NAME/ $template_dir/brbm.xml)
+     virsh net-autostart ${BRIDGE_NAME}
+     virsh net-start ${BRIDGE_NAME}
  
 -- 
 1.9.3
