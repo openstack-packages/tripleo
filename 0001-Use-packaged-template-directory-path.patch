@@ -1,6 +1,6 @@
-From ad3f29082e3e26124d21c4a546a9afc0288db071 Mon Sep 17 00:00:00 2001
-From: James Slagle <jslagle@redhat.com>
-Date: Wed, 19 Mar 2014 07:09:41 -0400
+From df341d4667ccfa0c52574a69888476132f6e125c Mon Sep 17 00:00:00 2001
+From: Javier Pena <jpena@redhat.com>
+Date: Thu, 28 May 2015 12:28:00 +0200
 Subject: [PATCH] Use packaged template directory
 
 ---
@@ -9,7 +9,7 @@ Subject: [PATCH] Use packaged template directory
  2 files changed, 5 insertions(+), 6 deletions(-)
 
 diff --git a/scripts/configure-vm b/scripts/configure-vm
-index 633b053..98e06b4 100755
+index 690a682..e482f93 100755
 --- a/scripts/configure-vm
 +++ b/scripts/configure-vm
 @@ -6,10 +6,7 @@ import random
@@ -25,7 +25,7 @@ index 633b053..98e06b4 100755
  def generate_bm_mac_address():
      """Generate an Ethernet MAC address suitable for baremetal testing."""
 diff --git a/scripts/setup-network b/scripts/setup-network
-index 54b886a..75a3592 100755
+index fd66980..34948a7 100755
 --- a/scripts/setup-network
 +++ b/scripts/setup-network
 @@ -1,5 +1,7 @@
@@ -41,11 +41,11 @@ index 54b886a..75a3592 100755
      (virsh net-list --persistent | grep "${BRIDGE_NAME} ") && virsh net-destroy ${BRIDGE_NAME}
      (virsh net-list --inactive --persistent | grep "${BRIDGE_NAME} ") && virsh net-undefine ${BRIDGE_NAME}
  
--    virsh net-define <(sed s/brbm/$BRIDGE_NAME/ $BASE/templates/brbm.xml)
-+    virsh net-define <(sed s/brbm/$BRIDGE_NAME/ $template_dir/brbm.xml)
+-    virsh net-define <(sed s/%NETWORK_NAME%/$BRIDGE_NAME/ $BASE/templates/net.xml)
++    virsh net-define <(sed s/%NETWORK_NAME%/$BRIDGE_NAME/ $template_dir/net.xml)
      virsh net-autostart ${BRIDGE_NAME}
      virsh net-start ${BRIDGE_NAME}
  
 -- 
-1.9.3
+2.1.0
 
