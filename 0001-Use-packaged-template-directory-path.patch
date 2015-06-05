@@ -1,6 +1,6 @@
-From df341d4667ccfa0c52574a69888476132f6e125c Mon Sep 17 00:00:00 2001
+From a8adbc63a80467c9e064fc8e1866b9201ae76bd0 Mon Sep 17 00:00:00 2001
 From: Javier Pena <jpena@redhat.com>
-Date: Thu, 28 May 2015 12:28:00 +0200
+Date: Fri, 5 Jun 2015 11:06:11 +0200
 Subject: [PATCH] Use packaged template directory
 
 ---
@@ -9,7 +9,7 @@ Subject: [PATCH] Use packaged template directory
  2 files changed, 5 insertions(+), 6 deletions(-)
 
 diff --git a/scripts/configure-vm b/scripts/configure-vm
-index 690a682..e482f93 100755
+index b4c5410..7704501 100755
 --- a/scripts/configure-vm
 +++ b/scripts/configure-vm
 @@ -6,10 +6,7 @@ import random
@@ -25,7 +25,7 @@ index 690a682..e482f93 100755
  def generate_bm_mac_address():
      """Generate an Ethernet MAC address suitable for baremetal testing."""
 diff --git a/scripts/setup-network b/scripts/setup-network
-index fd66980..34948a7 100755
+index 9365f43..6d92bce 100755
 --- a/scripts/setup-network
 +++ b/scripts/setup-network
 @@ -1,5 +1,7 @@
@@ -37,12 +37,12 @@ index fd66980..34948a7 100755
  
  BASE=$(dirname $0)/../
  BRIDGE_SUFFIX=${1:-''} # support positional arg for legacy support
-@@ -46,7 +48,7 @@ function create_bridge {
+@@ -67,7 +69,7 @@ function create_bridge {
      (virsh net-list --persistent | grep "${BRIDGE_NAME} ") && virsh net-destroy ${BRIDGE_NAME}
      (virsh net-list --inactive --persistent | grep "${BRIDGE_NAME} ") && virsh net-undefine ${BRIDGE_NAME}
  
--    virsh net-define <(sed s/%NETWORK_NAME%/$BRIDGE_NAME/ $BASE/templates/net.xml)
-+    virsh net-define <(sed s/%NETWORK_NAME%/$BRIDGE_NAME/ $template_dir/net.xml)
+-    virsh net-define <(sed -e "s/%NETWORK_NAME%/$BRIDGE_NAME/" -e "s/%VLAN_TRUNK_DATA%/$VLAN_TRUNK_DATA/" $BASE/templates/net.xml)
++    virsh net-define <(sed -e "s/%NETWORK_NAME%/$BRIDGE_NAME/" -e "s/%VLAN_TRUNK_DATA%/$VLAN_TRUNK_DATA/" $template_dir/net.xml)
      virsh net-autostart ${BRIDGE_NAME}
      virsh net-start ${BRIDGE_NAME}
  
