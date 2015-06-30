@@ -1,6 +1,6 @@
-From cdc6a3098c28cc884964d6594a55579e4d6d3d28 Mon Sep 17 00:00:00 2001
+From 02e29e249d11fb889b1dfd0b03d0af82059d4984 Mon Sep 17 00:00:00 2001
 From: Javier Pena <jpena@redhat.com>
-Date: Wed, 17 Jun 2015 12:56:56 +0200
+Date: Tue, 30 Jun 2015 12:31:50 +0200
 Subject: [PATCH] Use packaged template directory
 
 ---
@@ -25,7 +25,7 @@ index 9b26461..66151e3 100755
  MAX_NUM_MACS = math.trunc(0xff/2)
  
 diff --git a/scripts/setup-network b/scripts/setup-network
-index 9365f43..6d92bce 100755
+index 41e6c43..599a496 100755
 --- a/scripts/setup-network
 +++ b/scripts/setup-network
 @@ -1,5 +1,7 @@
@@ -37,12 +37,12 @@ index 9365f43..6d92bce 100755
  
  BASE=$(dirname $0)/../
  BRIDGE_SUFFIX=${1:-''} # support positional arg for legacy support
-@@ -67,7 +69,7 @@ function create_bridge {
+@@ -50,7 +52,7 @@ function create_bridge {
      (virsh net-list --persistent | grep "${BRIDGE_NAME} ") && virsh net-destroy ${BRIDGE_NAME}
      (virsh net-list --inactive --persistent | grep "${BRIDGE_NAME} ") && virsh net-undefine ${BRIDGE_NAME}
  
--    virsh net-define <(sed -e "s/%NETWORK_NAME%/$BRIDGE_NAME/" -e "s/%VLAN_TRUNK_DATA%/$VLAN_TRUNK_DATA/" $BASE/templates/net.xml)
-+    virsh net-define <(sed -e "s/%NETWORK_NAME%/$BRIDGE_NAME/" -e "s/%VLAN_TRUNK_DATA%/$VLAN_TRUNK_DATA/" $template_dir/net.xml)
+-    virsh net-define <(sed -e "s/%NETWORK_NAME%/$BRIDGE_NAME/"  $BASE/templates/net.xml)
++    virsh net-define <(sed -e "s/%NETWORK_NAME%/$BRIDGE_NAME/"  $template_dir/net.xml)
      virsh net-autostart ${BRIDGE_NAME}
      virsh net-start ${BRIDGE_NAME}
  
