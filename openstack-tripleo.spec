@@ -1,17 +1,17 @@
-%global commit c3fb309727671130a32b4c19de48ec22c8530aa1
-%global shortcommit %(c=%{commit}; echo ${c:0:7})
-%global alphatag %commit
+%global commit0 7461b01e393931e0f4cf1ff38eadb0755a49d658
+%global shortcommit0 %(c=%{commit0}; echo ${c:0:7})
+%global alphatag %commit0
 %global repo_name tripleo-incubator
 
 Name:			openstack-tripleo
-Version: XXX
-Release: XXX{?dist}
+Version: 0.0.6
+Release: 1%{?dist}
 Summary:		OpenStack TripleO
 
 Group:			Applications/System
 License:		ASL 2.0
 URL:			https://wiki.openstack.org/wiki/TripleO
-Source0:		https://github.com/openstack/%{repo_name}/archive/%{commit}.tar.gz
+Source0:        https://github.com/openstack/%{repo_name}/archive/%{commit0}.tar.gz#/%{repo_name}-%{shortcommit0}.tar.gz
 Source1:		tripleo
 
 Patch0001:             0001-Use-packaged-template-directory-path.patch
@@ -24,7 +24,7 @@ BuildRequires:		python-oslo-sphinx
 Requires:		jq
 
 #
-# patches_base=c3fb309727671130a32b4c19de48ec22c8530aa1
+# patches_base=7461b01e393931e0f4cf1ff38eadb0755a49d658
 #
 
 %description
@@ -40,6 +40,7 @@ Requires:		%{name} = %{version}-%{release}
 
 BuildArch:		noarch
 
+BuildRequires:      git
 BuildRequires:		python-sphinx
 
 %description	doc
@@ -50,14 +51,12 @@ nova, neutron and heat to automate fleet management at datacenter scale.
 This package contains documentation files for TripleO.
 
 %prep
-%setup -q -n %{repo_name}-%{upstream_version}
-
-%patch0001 -p1
+%autosetup -n %{repo_name}-%{commit0} -S git
 
 %install
 # scripts
 mkdir -p %{buildroot}/%{_libexecdir}/%{name}
-install -p -m 755 -t %{buildroot}/%{_libexecdir}/%{name} scripts/* 
+install -p -m 755 -t %{buildroot}/%{_libexecdir}/%{name} scripts/*
 mkdir -p %{buildroot}/%{_bindir}
 install -p -m 755 -t %{buildroot}/%{_bindir} %{SOURCE1}
 # extract-docs.awk and extract-docs are only used for building docs, we don't
@@ -94,6 +93,9 @@ cp -r doc/build/html/* %{buildroot}%{_datadir}/doc/tripleo/html
 %{_datadir}/doc/tripleo
 
 %changelog
+* Mon Oct 19 2015 John Trowbridge <trown@redhat.com> - 0.0.6-1
+- Update to 7461b01e393931e0f4cf1ff38eadb0755a49d658
+
 * Wed Oct 08 2014 James Slagle <jslagle@redhat.com> 0.0.5-2c3fb309727671130a32b4c19de48ec22c8530aa1
 - Remove check for $TRIPLEO_ROOT.
 
