@@ -5,7 +5,7 @@
 
 Name:			openstack-tripleo
 Version: XXX
-Release: XXX{?dist}
+Release: XXX
 Summary:		OpenStack TripleO
 
 Group:			Applications/System
