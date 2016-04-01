@@ -1,27 +1,25 @@
-%global commit c3fb309727671130a32b4c19de48ec22c8530aa1
+%global commit d81bd6d00683870af9add7a45e54a47598563ccd
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
-%global alphatag %commit
-%global repo_name tripleo-incubator
+%global alphatag .%{shortcommit}git
+%global project tripleo-incubator
 
-Name:			openstack-tripleo
-Version: XXX
-Release: XXX
-Summary:		OpenStack TripleO
+Name:             openstack-tripleo
+Version:          0.0.8
+Release:          0.1%{alphatag}%{?dist}
+Summary:          OpenStack TripleO
 
-Group:			Applications/System
-License:		ASL 2.0
-URL:			https://wiki.openstack.org/wiki/TripleO
-Source0:		https://github.com/openstack/%{repo_name}/archive/%{commit}.tar.gz
-Source1:		tripleo
+Group:            Applications/System
+License:          ASL 2.0
+URL:              https://wiki.openstack.org/wiki/TripleO
+Source0:          https://github.com/openstack/%{project}/archive/%{commit}.tar.gz#/%{project}-%{commit}.tar.gz
+Source1:          tripleo
+Patch0001:        0001-Use-packaged-template-directory-path.patch
 
-Patch0001:             0001-Use-packaged-template-directory-path.patch
+BuildArch:        noarch
 
-BuildArch:		noarch
-
-BuildRequires:		python-sphinx
-BuildRequires:		python-oslo-sphinx
-
-Requires:		jq
+BuildRequires:    python-sphinx
+BuildRequires:    python-oslo-sphinx
+Requires:         jq
 
 #
 # patches_base=c3fb309727671130a32b4c19de48ec22c8530aa1
@@ -33,16 +31,13 @@ clouds using OpenStack's own cloud facilities as the foundations - building on
 nova, neutron and heat to automate fleet management at datacenter scale.
 
 %package doc
-Summary:		Documentation for OpenStack TripleO
-Group:			Documentation
+Summary:          Documentation for OpenStack TripleO
+BuildRequires:    python-sphinx
+Requires:         %{name} = %{version}-%{release}
+BuildArch:        noarch
 
-Requires:		%{name} = %{version}-%{release}
 
-BuildArch:		noarch
-
-BuildRequires:		python-sphinx
-
-%description	doc
+%description    doc
 TripleO is a program aimed at installing, upgrading and operating OpenStack
 clouds using OpenStack's own cloud facilities as the foundations - building on
 nova, neutron and heat to automate fleet management at datacenter scale.
@@ -50,7 +45,7 @@ nova, neutron and heat to automate fleet management at datacenter scale.
 This package contains documentation files for TripleO.
 
 %prep
-%setup -q -n %{repo_name}-%{upstream_version}
+%setup -q -n %{project}-%{commit}
 
 %patch0001 -p1
 
@@ -82,6 +77,8 @@ install -d -m 755 %{buildroot}%{_datadir}/doc/tripleo/html
 cp -r doc/build/html/* %{buildroot}%{_datadir}/doc/tripleo/html
 
 %files
+%license LICENSE
+%doc README.rst
 %{_bindir}/*
 %{_libexecdir}/%{name}
 # These config files are *not* noreplace. They aren't meant to be edited by
@@ -90,7 +87,9 @@ cp -r doc/build/html/* %{buildroot}%{_datadir}/doc/tripleo/html
 %{_datadir}/tripleo
 
 %files doc
-%doc LICENSE README.rst
 %{_datadir}/doc/tripleo
 
 %changelog
+* Fri Apr  1 2016 Haïkel Guémar <hguemar@fedoraproject.org> - 0.0.8-0.1.d81bd6dgit
+- Upstream Mitaka RC1
+
